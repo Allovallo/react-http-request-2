@@ -1,25 +1,22 @@
+import PokemonForm from 'components/PokemonForm';
 import React, { Component } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default class App extends Component {
   state = {
-    pockemon: null,
-    loading: false,
+    pokemonName: '',
   };
 
-  componentDidMount() {
-    this.setState({ loading: true });
-
-    fetch('http://pokeapi.co/api/v2/pokemon/ditto')
-      .then(response => response.json())
-      .then(pockemon => this.setState({ pockemon }))
-      .finally(() => this.setState({ loading: false }));
-  }
+  handleFormSubmit = pokemonName => {
+    this.setState({ pokemonName });
+  };
 
   render() {
     return (
       <div style={{ maxWidth: 1170, margin: '0 auto', padding: 20 }}>
-        {this.state.loading && <div>...Завантажуємо!..</div>}
-        {this.state.pockemon && <div>{this.state.pockemon.name}</div>}
+        <PokemonForm onSubmit={this.handleFormSubmit} />
+        <ToastContainer />
       </div>
     );
   }
