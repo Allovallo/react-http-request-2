@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 
 export default class PokemonInfo extends Component {
-  return() {
-    return <div>PokemonInfo</div>;
+  render() {
+    return (
+      <div>
+        <h1>PokemonInfo</h1>
+        <p>{this.props.pokemonName}</p>
+      </div>
+    );
   }
 }
