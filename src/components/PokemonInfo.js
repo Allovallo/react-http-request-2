@@ -14,11 +14,16 @@ export default class PokemonInfo extends Component {
     if (prevName !== nextName) {
       console.log('Змінилося ім`я покемону!');
 
-      this.setState({ loading: true });
+      this.setState({ loading: true, pokemon: null });
 
       fetch(`http://pokeapi.co/api/v2/pokemon/${nextName}`)
-        .then(response => response.json())
-        .then(pokemon => this.setState({ pokemon: pokemon }))
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          }
+          return Promise.reject(new Error(`Помилка! Покемону ${nextName} немає!`));
+        })
+        .then(pokemon => this.setState({ pokemon }))
         .catch(error => this.setState({ error }))
         .finally(() => this.setState({ loading: false }));
     }
@@ -31,7 +36,7 @@ export default class PokemonInfo extends Component {
     return (
       <div>
         <h1>PokemonInfo</h1>
-        {error && <h1>Помилка! Покемону {pokemonName} немає!</h1>}
+        {error && <h1>{error.message}</h1>}
         {loading && <div>...Завантажуємо!..</div>}
         {!pokemonName && <div>Введіть ім`я покемону!</div>}
         {pokemon && (
