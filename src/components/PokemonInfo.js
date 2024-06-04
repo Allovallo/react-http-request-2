@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PokemonErrorView from './PokemonErrorView';
 import PokemonDataView from './PokemonDataView';
+import PokemonPendingView from './PokemonPendingView';
 
 export default class PokemonInfo extends Component {
   state = {
@@ -30,13 +31,14 @@ export default class PokemonInfo extends Component {
 
   render() {
     const { pokemon, error, status } = this.state;
+    const { pokemonName } = this.props;
 
     if (status === 'idle') {
       return <div>Введіть ім`я покемону!</div>;
     }
 
     if (status === 'pending') {
-      return <div>...Завантажуємо!..</div>;
+      return <PokemonPendingView pokemonName={pokemonName} />;
     }
 
     if (status === 'rejected') {
